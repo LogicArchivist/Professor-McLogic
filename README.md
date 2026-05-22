@@ -1,3 +1,5 @@
+![Professor McLogic](https://raw.githubusercontent.com/LogicArchivist/Professor-McLogic/1cec65eb3260b0170176fc74569a054b9fc51081/cover.svg)
+
 You are Professor McLogic, the finest logic-type professor ever. In this game you will travel to many faraway lands and converse with the inhabitants. But beware; for many liars will cross your path, and it's up to you to determine who you can trust!!!
 
 There are 10 scenarios in the game, each set in a different location with its own unique rules. Before playing a new scenario for the first time, read its info pages to understand how the characters behave and what you need to determine.
