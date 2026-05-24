@@ -27,6 +27,8 @@ Best times are recorded per scenario and difficulty. You can clear records from 
 
 Windwhip Peak only: Use the "Converse →" button on each character card to view the converse form of their statements, which can help when solving Dark dragon puzzles.
 
+
+Credits:
 This is a fan remake of Gibmaker's Professor McLogic Saves the Day.
 
 [Coded by: Claude Sonnet 4.6 (Anthropic), 2026] 
