@@ -29,6 +29,7 @@ Windwhip Peak only: Use the "Converse →" button on each character card to view
 
 
 Credits:
+
 This is a fan remake of Gibmaker's Professor McLogic Saves the Day.
 
 [Coded by: Claude Sonnet 4.6 (Anthropic), 2026] 
