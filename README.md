@@ -26,3 +26,9 @@ Practice mode lets you solve individual puzzles of any character count (2–6) w
 Best times are recorded per scenario and difficulty. You can clear records from the scenario menu if you want a fresh start.
 
 Windwhip Peak only: Use the "Converse →" button on each character card to view the converse form of their statements, which can help when solving Dark dragon puzzles.
+
+This is a fan remake of Gibmaker's Professor McLogic Saves the Day.
+
+[Coded by: Claude Sonnet 4.6 (Anthropic), 2026] 
+
+The puzzles in this game are based off of those in Tricky Logic Puzzles by Norman D. Willis. New York: Sterling Publishing Co., Inc., 1995 
