@@ -429,9 +429,23 @@ const items=[];if(sc.isLP){const f=curLPMode==='starcraft'?['terrans','zerg','pr
 
 function showMain(){stopTmr();showScr('main');}
 
+function getCleared(scId){
+  const prefixes=scId==='lp'?['lp_standard','lp_starcraft']:[scId];
+  const diffs=['classic','advanced','expert'];
+  const cleared=new Set();
+  try{for(const p of prefixes)for(const d of diffs)if(localStorage.getItem(`${p}_${d}`))cleared.add(d);}catch(e){}
+  return cleared.size;
+}
 function showScenarios(){
   document.getElementById('bc-scenarios').innerHTML=bcH([{label:'Professor McLogic',fn:'showMain()'},{label:'Play',fn:''}]);
-  document.getElementById('sc-list').innerHTML=Object.values(SC).map(s=>`<div class="sc-card" onclick="selectSC('${s.id}')"><div><div class="sc-title">${s.title}</div><div class="sc-sub">${s.short}</div></div><div style="font-size:1.2rem;color:#4a9eff;">›</div></div>`).join('');
+  document.getElementById('sc-list').innerHTML=Object.values(SC).map(s=>{
+    const n=getCleared(s.id);
+    const full=n===3;
+    const circles=[0,1,2].map(i=>`<span style="font-size:13px;color:${i<n?'#4a9eff':'#2a3a5a'};">${i<n?'●':'○'}</span>`).join(' ');
+    const border=full?'1px solid #4a9eff':'0.5px solid #2a3a5a';
+    const shadow=full?'box-shadow:0 0 10px rgba(74,158,255,0.25);':'';
+    return`<div class="sc-card" onclick="selectSC('${s.id}')" style="border:${border};${shadow}"><div><div class="sc-title">${s.title}</div><div class="sc-sub">${s.short}</div></div><div style="display:flex;align-items:center;gap:10px;">${n>0?`<div style="display:flex;gap:4px;">${circles}</div>`:''}<div style="font-size:1.2rem;color:#4a9eff;">›</div></div></div>`;
+  }).join('');
   applyBtn('sc-back',sBcss(),'Back',showMain);
   showScr('scenarios');
 }
@@ -562,10 +576,6 @@ function showModal(title,body,okLabel,onOk){document.getElementById('modal-title
 
 function confirmLeave(){showModal('Quit scenario?','Your progress and time will be lost.','Quit',()=>{stopTmr();showSMenu();});}
 showMain();
-</script>
-</body>
-</html>
-
 </script>
 </body>
 </html>
