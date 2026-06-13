@@ -7,7 +7,7 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: #0f1117; color: #e8e8e8; font-family: Georgia, serif; min-height: 100vh; }
-.app { max-width: 640px; margin: 0 auto; padding: 1.5rem 1rem; }
+.app { max-width: 640px; margin: 0 auto; padding: 1.5rem 1rem 5rem; }
 .screen { display: none; }
 .screen.active { display: block; }
 .prog-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; background: #2a3a5a; }
@@ -430,21 +430,39 @@ const items=[];if(sc.isLP){const f=curLPMode==='starcraft'?['terrans','zerg','pr
 function showMain(){stopTmr();showScr('main');}
 
 function getCleared(scId){
-  const prefixes=scId==='lp'?['lp_standard','lp_starcraft']:[scId];
   const diffs=['classic','advanced','expert'];
-  const cleared=new Set();
-  try{for(const p of prefixes)for(const d of diffs)if(localStorage.getItem(`${p}_${d}`))cleared.add(d);}catch(e){}
-  return cleared.size;
+  let n=0;
+  try{for(const d of diffs)if(localStorage.getItem(`${scId}_${d}`))n++;}catch(e){}
+  return n;
+}
+function getLPCleared(){
+  const diffs=['classic','advanced','expert'];
+  let std=0,sc=0;
+  try{for(const d of diffs){if(localStorage.getItem(`lp_standard_${d}`))std++;if(localStorage.getItem(`lp_starcraft_${d}`))sc++;}}catch(e){}
+  return{std,sc};
+}
+function mkCircles(n){
+  return[0,1,2].map(i=>`<span style="font-size:13px;color:${i<n?'#4a9eff':'#2a3a5a'};">${i<n?'●':'○'}</span>`).join(' ');
 }
 function showScenarios(){
   document.getElementById('bc-scenarios').innerHTML=bcH([{label:'Professor McLogic',fn:'showMain()'},{label:'Play',fn:''}]);
   document.getElementById('sc-list').innerHTML=Object.values(SC).map(s=>{
+    if(s.id==='lp'){
+      const{std,sc}=getLPCleared();
+      const full=std===3&&sc===3;
+      const border=full?'1px solid #4a9eff':'0.5px solid #2a3a5a';
+      const shadow=full?'box-shadow:0 0 10px rgba(74,158,255,0.25);':'';
+      const rows=`<div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;">` +
+        `<div style="display:flex;align-items:center;gap:6px;"><span style="font-size:10px;color:#8899bb;">Std</span>${mkCircles(std)}</div>` +
+        `<div style="display:flex;align-items:center;gap:6px;"><span style="font-size:10px;color:#8899bb;">SC&nbsp;</span>${mkCircles(sc)}</div>` +
+        `</div>`;
+      return`<div class="sc-card" onclick="selectSC('lp')" style="border:${border};${shadow}"><div><div class="sc-title">${s.title}</div><div class="sc-sub">${s.short}</div></div><div style="display:flex;align-items:center;gap:10px;">${rows}<div style="font-size:1.2rem;color:#4a9eff;">›</div></div></div>`;
+    }
     const n=getCleared(s.id);
     const full=n===3;
-    const circles=[0,1,2].map(i=>`<span style="font-size:13px;color:${i<n?'#4a9eff':'#2a3a5a'};">${i<n?'●':'○'}</span>`).join(' ');
     const border=full?'1px solid #4a9eff':'0.5px solid #2a3a5a';
     const shadow=full?'box-shadow:0 0 10px rgba(74,158,255,0.25);':'';
-    return`<div class="sc-card" onclick="selectSC('${s.id}')" style="border:${border};${shadow}"><div><div class="sc-title">${s.title}</div><div class="sc-sub">${s.short}</div></div><div style="display:flex;align-items:center;gap:10px;">${n>0?`<div style="display:flex;gap:4px;">${circles}</div>`:''}<div style="font-size:1.2rem;color:#4a9eff;">›</div></div></div>`;
+    return`<div class="sc-card" onclick="selectSC('${s.id}')" style="border:${border};${shadow}"><div><div class="sc-title">${s.title}</div><div class="sc-sub">${s.short}</div></div><div style="display:flex;align-items:center;gap:10px;">${n>0?`<div style="display:flex;gap:4px;">${mkCircles(n)}</div>`:''}<div style="font-size:1.2rem;color:#4a9eff;">›</div></div></div>`;
   }).join('');
   applyBtn('sc-back',sBcss(),'Back',showMain);
   showScr('scenarios');
